@@ -1,4 +1,4 @@
-# 👁️ Civic Watch
+#  Civic Watch
 > **The People's Voice Platform**
 
 ![Next.js](https://img.shields.io/badge/Next.js-15-black) ![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-green) ![TypeScript](https://img.shields.io/badge/Language-TypeScript-blue) ![License](https://img.shields.io/badge/License-MIT-yellow)
