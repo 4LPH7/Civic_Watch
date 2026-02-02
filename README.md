@@ -3,16 +3,16 @@
 
 ![Next.js](https://img.shields.io/badge/Next.js-15-black) ![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-green) ![TypeScript](https://img.shields.io/badge/Language-TypeScript-blue) ![License](https://img.shields.io/badge/License-MIT-yellow)
 
-**Civic Watch** is a Progressive Web Application (PWA) designed to empower citizens to report civic issues and allow officials to track and resolve them in real-time.
+**Civic Watch** is a Progressive Web Application (PWA) designed to empower citizens to report civic issues and allow officials to track and resolve them in real time.
 
-Built for speed and security, it leverages the latest **Next.js 15** features, **Supabase** for backend-as-a-service, and **Mapbox GL** for high-performance vector mapping.
+Built for speed and security, it leverages the latest **Next.js 15** features, **Supabase** for backend-as-a-service, and **MapLibre GL JS** for high-performance open mapping on **OpenStreetMap** tiles.
 
 ---
 
 ## 🚀 Key Features
 
 * **⚡ Modern Next.js 15 Stack:** Built on the App Router with **React 19**. Utilizes stable Server Actions for mutation handling, eliminating the need for separate API routes.
-* **🗺️ High-Performance Mapping:** Powered by **Mapbox GL JS** (via `react-map-gl`). Renders thousands of vector markers efficiently using WebGL, ensuring 60fps performance even with heavy datasets.
+* **🗺️ High-Performance Open Mapping:** Powered by **MapLibre GL JS** (via `react-map-gl/maplibre`). Renders thousands of vector markers efficiently using WebGL, ensuring 60fps performance even with heavy datasets.
 * **🔐 RBAC & Row-Level Security:** Strictly typed authentication via Supabase. Data access is governed by **Row-Level Security (RLS)** policies right at the database engine level—Citizens own their data; Admins manage status.
 * **📍 Smart Reporting Engine:** Auto-detects user geolocation. Reports are categorized and risk-assessed. Forms are validated strictly using **Zod** + **React Hook Form**.
 * **📡 Real-time Notifications:** Automated email triggers via **Resend** for high-risk reports or high-upvote thresholds.
@@ -27,7 +27,7 @@ Built for speed and security, it leverages the latest **Next.js 15** features, *
 | **Framework** | Next.js 15 (App Router) | Server Components, Server Actions, React 19 |
 | **Language** | TypeScript | Strict type safety across full stack |
 | **Database** | Supabase (PostgreSQL) | Auth, Database, Storage, Realtime |
-| **Maps** | Mapbox GL JS | Vector tile rendering, interactive markers |
+| **Maps** | MapLibre GL JS + OpenStreetMap | Open-source vector rendering, interactive markers |
 | **Styling** | Tailwind CSS | Utility-first styling with `shadcn/ui` components |
 | **Forms** | React Hook Form + Zod | Client-side validation & schema enforcement |
 | **Email** | Resend SDK | Transactional emails for high-risk alerts |
@@ -42,12 +42,12 @@ Built for speed and security, it leverages the latest **Next.js 15** features, *
 │   ├── (auth)/           # Authentication routes (Login/Signup)
 │   ├── (dashboard)/      # Protected Admin Dashboard
 │   ├── actions/          # Server Actions (Mutations: submit, resolve, notify)
-│   ├── map/              # Main Citizen View (Mapbox integration)
+│   ├── map/              # Main Citizen View (MapLibre + OSM integration)
 │   ├── api/              # Route Handlers (Webhooks)
 │   └── layout.tsx        # Root Layout
 ├── components/
 │   ├── forms/            # Zod-validated forms (ReportIssueForm)
-│   ├── map/              # Mapbox wrappers & Markers
+│   ├── map/              # MapLibre wrappers & Markers
 │   └── ui/               # Reusable UI components (Shadcn)
 ├── lib/
 │   └── supabase/         # Typed Supabase Clients (Server/Client)
@@ -79,8 +79,8 @@ NEXT_PUBLIC_SUPABASE_URL=your_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 
-# Mapbox
-NEXT_PUBLIC_MAPBOX_TOKEN=your_mapbox_access_token
+# Map tiles (OpenStreetMap / self-hosted)
+NEXT_PUBLIC_MAP_TILES_URL=https://tile.openstreetmap.org/{z}/{x}/{y}.png
 
 # Resend (Email)
 RESEND_API_KEY=your_resend_api_key
@@ -116,7 +116,7 @@ Visit `http://localhost:3000/map` to start reporting.
 
 * **Caching Strategy (Next.js 15):** We utilize `export dynamic = 'force-static'` where possible, but default to uncached fetching for the map data to ensure citizens see real-time updates.
 * **Security First:** Logic is moved to the server wherever possible. Direct database interaction from the client is restricted to `SELECT` (read-only) operations permitted by RLS. All writes go through Server Actions to allow for extra server-side validation and rate limiting.
-* **WebGL vs Leaflet:** We chose Mapbox/WebGL over Leaflet because the app aims to visualize potentially thousands of civic data points. Canvas/DOM-based rendering (Leaflet) creates bottlenecks at scale.
+* **WebGL vs Leaflet:** We chose MapLibre/WebGL over Leaflet because the app aims to visualize potentially thousands of civic data points. Canvas/DOM-based rendering (Leaflet) creates bottlenecks at scale.
 
 ---
 
